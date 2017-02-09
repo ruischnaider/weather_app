@@ -1,0 +1,29 @@
+<div layout="row" layout-align="center center">
+    <div class="md-title">Temperatura da semana</div>
+</div>
+<div layout="row" layout-align="center center">
+    <div flex>
+        <h3>Máxima</h3>
+        <h4 class="day">{{temp.max.date | amParse:'YYYY-MM-DD' | amDateFormat:'dddd'}}</h4>
+        <h3 class="max">{{temp.max.day.maxtemp_c}}º</h3>
+    </div>
+    <div flex>
+        <h3>Mínima</h3>
+        <h4 class="day">{{temp.min.date | amParse:'YYYY-MM-DD' | amDateFormat:'dddd'}}</h4>
+        <h3 class="min">{{temp.min.day.mintemp_c}}º</h3>
+    </div>
+</div>
+
+<md-divider class="margin-top"></md-divider>
+
+<div class="margin-top">
+    Evolução semanal
+</div>
+
+<div class="margin-top">
+    <canvas id="bar" class="chart chart-line"
+            chart-data="chart.data"
+            chart-labels="chart.labels"
+            chart-series="chart.series">
+    </canvas>
+</div>

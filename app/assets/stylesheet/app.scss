@@ -1,0 +1,95 @@
+.wrap {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+
+  .md-padding-8 {
+    padding: 8px;
+  }
+
+  .margin-top {
+    margin-top: 16px;
+  }
+
+  .autocomplete {
+    height: 110px;
+
+    md-autocomplete {
+      height: 80px;
+
+      md-autocomplete-wrap {
+        height: 80px;
+
+        input {
+          font-size: 24px;
+          height: 80px;
+        }
+      }
+    }
+  }
+
+  .current {
+    padding: 8px;
+    text-align: center;
+
+    h1 {
+      color: rgba(0, 0, 0, .50);
+      font-size: 18px;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .temp {
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .max {
+    color: #bd0f32;
+  }
+
+  .min {
+    color: #5b91b8;
+  }
+
+  .forecast {
+    padding-top: 16px;
+
+    .day {
+      border-radius: 5px;
+      cursor: pointer;
+      color: rgba(0, 0, 0, .50);
+      padding: 5px;
+      text-align: center;
+      text-transform: uppercase;
+
+      .wrap {
+        max-width: 66px;
+
+        .temp {
+          font-size: 12px;
+        }
+
+        &.active {
+          background: #efefef;
+        }
+      }
+    }
+  }
+
+  .week {
+    color: rgba(0, 0, 0, .50);
+    text-align: center;
+
+    .day {
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .max, .min {
+      margin: 0;
+    }
+  }
+}

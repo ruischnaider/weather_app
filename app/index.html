@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Weather APP</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/stylesheet/app.css">
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="assets/stylesheet/lib/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body ng-controller="indexController">
+<div class="wrap">
+    <div layout="row" class="md-padding autocomplete" ng-controller="autocompleteCtrl">
+        <md-autocomplete flex
+                         md-selected-item="selected"
+                         md-search-text="searchText"
+                         md-items="item in get(searchText)"
+                         md-delay="1000"
+                         md-selected-item-change="getWeather(selected.name)"
+                         md-input-minlength="2"
+                         md-clear-button="false"
+                         placeholder="Busque uma cidade"
+                         md-item-text="item.name">
+            <span md-highlight-text="searchText">{{item.name}}</span>
+        </md-autocomplete>
+    </div>
+
+    <div layout="row" layout-align="center center" class="md-padding" ng-if="loading.active">
+        <md-progress-circular md-diameter="25" md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div layout="column" layout-gt-sm="row" class="md-padding-8"
+         ng-if="!loading.active && current && forecast.forecastday.length">
+        <md-card flex flex-gt-sm="66">
+            <md-card-content>
+                <div layout="row" layout-align="start center" class="label">
+                    <div class="current">
+                        <h1>
+                            {{current.date | amParse:'YYYY-MM-DD' | amDateFormat:'dddd'}}
+                        </h1>
+                        <img ng-src="http:{{current.day.condition.icon}}"
+                             title="{{translations[current.day.condition.code]}}"/>
+                    </div>
+                    <div flex class="temp">
+                        {{translations[current.day.condition.code]}}
+                        <div class="max">
+                            {{current.day.maxtemp_c}}º
+                        </div>
+                        <div class="min">
+                            {{current.day.mintemp_c}}º
+                        </div>
+                    </div>
+                    <div flex>
+                        <div flex layout="column" layout-align="start end">
+                            <div flex>
+                                <md-button class="md-icon-button" aria-label="Favoritar"
+                                           ng-click="setFavorite(location)">
+                                    <md-tooltip ng-if="location.name !== favorited">Favoritar</md-tooltip>
+                                    <md-tooltip ng-if="location.name === favorited">Desfavoritar</md-tooltip>
+                                    <md-icon ng-if="location.name === favorited">star</md-icon>
+                                    <md-icon ng-if="location.name !== favorited">star_border</md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <md-divider></md-divider>
+
+                <div class="forecast" layout="row">
+                    <div flex class="day" ng-repeat="item in forecast.forecastday"
+                         ng-class="{'active' : item.date == current.date}" ng-click="setCurrent(item)">
+                        <div class="wrap">
+                            {{item.date | amParse:'YYYY-MM-DD' | amDateFormat:'ddd'}}
+                            <img ng-src="http:{{item.day.condition.icon}}"
+                                 title="{{translations[item.day.condition.code]}}"/>
+                            <div class="temp">
+                                <div class="max">
+                                    {{item.day.maxtemp_c}}º
+                                </div>
+                                <div class="min">
+                                    {{item.day.mintemp_c}}º
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card flex flex-gt-sm="33">
+            <md-card-content class="md-padding week">
+                <div layout="row" layout-align="center center">
+                    <div class="md-title">Temperatura da semana</div>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <div flex>
+                        <h3>Máxima</h3>
+                        <h4 class="day">{{temp.max.date | amParse:'YYYY-MM-DD' | amDateFormat:'dddd'}}</h4>
+                        <h3 class="max">{{temp.max.day.maxtemp_c}}º</h3>
+                    </div>
+                    <div flex>
+                        <h3>Mínima</h3>
+                        <h4 class="day">{{temp.min.date | amParse:'YYYY-MM-DD' | amDateFormat:'dddd'}}</h4>
+                        <h3 class="min">{{temp.min.day.mintemp_c}}º</h3>
+                    </div>
+                </div>
+
+                <md-divider class="margin-top"></md-divider>
+
+                <div class="margin-top">
+                    Evolução semanal
+                </div>
+
+                <div class="margin-top">
+                    <canvas id="bar2" class="chart chart-line"
+                            chart-data="chart.data"
+                            chart-labels="chart.labels"
+                            chart-series="chart.series">
+                    </canvas>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
+
+
+<script src="assets/javascript/lib/angular.min.js"></script>
+<script src="assets/javascript/lib/angular-animate.min.js"></script>
+<script src="assets/javascript/lib/angular-aria.min.js"></script>
+<script src="assets/javascript/lib/angular-messages.min.js"></script>
+<script src="assets/javascript/lib/angular-resource.min.js"></script>
+<script src="assets/javascript/lib/moment.min.js"></script>
+<script src="assets/javascript/lib/moment-pt-br.js"></script>
+<script src="assets/javascript/lib/angular-moment.min.js"></script>
+<script src="assets/javascript/lib/angular-local-storage.min.js"></script>
+<script src="assets/javascript/lib/chart.min.js"></script>
+<script src="assets/javascript/lib/angular-chart.min.js"></script>
+
+<!-- Angular Material Library -->
+<script src="assets/javascript/lib/angular-material.min.js"></script>
+
+<script src="assets/javascript/application.js"></script>
+<script src="assets/javascript/translations.js"></script>
+<script src="assets/javascript/controllers/indexCtrl.js"></script>
+<script src="assets/javascript/controllers/autocompleteCtrl.js"></script>
+<script src="assets/javascript/models/City.js"></script>
+<script src="assets/javascript/models/Forecast.js"></script>
+</body>
+</html>
