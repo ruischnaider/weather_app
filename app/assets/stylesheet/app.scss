@@ -38,6 +38,10 @@
       margin: 0 0 8px 0;
       text-transform: uppercase;
     }
+
+    .temp {
+      margin-left: 8px;
+    }
   }
 
   .temp {
@@ -90,6 +94,17 @@
 
     .max, .min {
       margin: 0;
+    }
+  }
+}
+
+@media all and (max-width: 650px) {
+  .forecast {
+    .day {
+      img {
+        height: 40px;
+        width: 40px;
+      }
     }
   }
 }
